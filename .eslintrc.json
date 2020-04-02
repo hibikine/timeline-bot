@@ -1,0 +1,4 @@
+{
+  "extends": "@hibikine/eslint-config-base",
+  "parser": "@typescript-eslint/parser"
+}
