@@ -2552,11 +2552,6 @@ dotenv@^5.0.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-5.0.1.tgz#a5317459bd3d79ab88cff6e44057a6a3fbb1fcef"
   integrity sha512-4As8uPrjfwb7VXC+WnLCbXK7y+Ueb2B3zgNCePYfhxS1PYeaO1YTeplffTEcbfLhvFNGLAz90VvJs9yomG7bow==
 
-double-ended-queue@^2.1.0-0:
-  version "2.1.0-0"
-  resolved "https://registry.yarnpkg.com/double-ended-queue/-/double-ended-queue-2.1.0-0.tgz#103d3527fd31528f40188130c841efdd78264e5c"
-  integrity sha1-ED01J/0xUo9AGIEwyEHv3XgmTlw=
-
 duplexer2@~0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer2/-/duplexer2-0.1.4.tgz#8b12dab878c0d69e3e7891051662a32fc6bddcc1"
@@ -3608,43 +3603,6 @@ hubot-diagnostics@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/hubot-diagnostics/-/hubot-diagnostics-1.0.0.tgz#3a20de525901b83924b523b1244dcb726a8def69"
   integrity sha512-4kuR04lULoDDra/Z7B/rgMQMZW531Ve5hwhd8xNOKAl8e1cb5bZNqVpGFYF174eYcN54+RZuWQFHsntjvczyag==
-
-hubot-google-images@^0.2.7:
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/hubot-google-images/-/hubot-google-images-0.2.7.tgz#a8a1f9094d76830bf1931770888fab0dc0c11a4d"
-  integrity sha1-qKH5CU12gwvxkxdwiI+rDcDBGk0=
-
-hubot-google-translate@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/hubot-google-translate/-/hubot-google-translate-0.2.1.tgz#3f496c7f2c20994d594b4b75183898e2b627bb7e"
-  integrity sha1-P0lsfywgmU1ZS0t1GDiY4rYnu34=
-
-hubot-help@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/hubot-help/-/hubot-help-1.0.1.tgz#0a678e551d67c4317e222ff294b9583b8322fce7"
-  integrity sha512-1gL7ywROwQG6Grom68Bhi8O7YHn/qEkg3tGgap+tFejZGxVnFyJ/LcStBScW/zUj4yf0GlDaExR/vsaTjzBRsA==
-
-hubot-heroku-keepalive@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/hubot-heroku-keepalive/-/hubot-heroku-keepalive-1.0.3.tgz#2950e28095ee4a6ace2b76f90e2a91ba91e6813c"
-  integrity sha1-KVDigJXuSmrOK3b5DiqRupHmgTw=
-
-hubot-maps@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/hubot-maps/-/hubot-maps-0.0.3.tgz#c8fc5b0348754e62616d5b99b2bf3904c5ee583c"
-  integrity sha1-yPxbA0h1TmJhbVuZsr85BMXuWDw=
-
-hubot-pugme@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/hubot-pugme/-/hubot-pugme-0.1.1.tgz#bbf3b993831516c814f569cf0f05313fb9a31458"
-  integrity sha1-u/O5k4MVFsgU9WnPDwUxP7mjFFg=
-
-hubot-redis-brain@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/hubot-redis-brain/-/hubot-redis-brain-1.0.0.tgz#4626171525c2681852b285a621cc0443620fa0f1"
-  integrity sha512-F3udeIfYZ+49ezeWKQgcI41PblsyRnHvAWrqjJV/HGApPCxX1P0cPiNna3B/ml6V5EOOZLsVeelukwtxDhh09A==
-  dependencies:
-    redis "^2.7.1"
 
 hubot-rules@^1.0.0:
   version "1.0.0"
@@ -5862,29 +5820,10 @@ readdirp@^2.2.1:
     micromatch "^3.1.10"
     readable-stream "^2.0.2"
 
-redis-commands@^1.2.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/redis-commands/-/redis-commands-1.5.0.tgz#80d2e20698fe688f227127ff9e5164a7dd17e785"
-  integrity sha512-6KxamqpZ468MeQC3bkWmCB1fp56XL64D4Kf0zJSwDZbVLLm7KFkoIcHrgRvQ+sk8dnhySs7+yBg94yIkAK7aJg==
-
-redis-parser@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/redis-parser/-/redis-parser-2.6.0.tgz#52ed09dacac108f1a631c07e9b69941e7a19504b"
-  integrity sha1-Uu0J2srBCPGmMcB+m2mUHnoZUEs=
-
 redis@0.8.4:
   version "0.8.4"
   resolved "https://registry.yarnpkg.com/redis/-/redis-0.8.4.tgz#14609f26414e211c31e3cd07dc79b04bf9ff1980"
   integrity sha1-FGCfJkFOIRwx480H3HmwS/n/GYA=
-
-redis@^2.7.1:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/redis/-/redis-2.8.0.tgz#202288e3f58c49f6079d97af7a10e1303ae14b02"
-  integrity sha512-M1OkonEQwtRmZv4tEWF2VgpG0JWJ8Fv1PhlgT5+B+uNq2cA3Rt1Yt/ryoR+vQNOQcIEgdCdfH0jr3bDpihAw1A==
-  dependencies:
-    double-ended-queue "^2.1.0-0"
-    redis-commands "^1.2.0"
-    redis-parser "^2.6.0"
 
 regenerate-unicode-properties@^8.2.0:
   version "8.2.0"
