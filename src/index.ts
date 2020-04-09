@@ -90,20 +90,19 @@ module.exports = async (robot: Robot<SlackAdapter>) => {
             thumb_url: v.url_private,
           }));
         }
-        if (rawMessage.files.length)
-          robot.send(
-            {
-              room: timelineChannel,
-            } as any,
-            {
-              as_user: false,
-              channel: timelineChannel,
-              username: rawMessage.user.real_name,
-              icon_url: rawMessage.user.slack.profile.image_192,
-              attachments: files,
-              text: rawMessage.text,
-            } as any
-          );
+        robot.send(
+          {
+            room: timelineChannel,
+          } as any,
+          {
+            as_user: false,
+            channel: timelineChannel,
+            username: rawMessage.user.real_name,
+            icon_url: rawMessage.user.slack.profile.image_192,
+            attachments: files,
+            text: rawMessage.text,
+          } as any
+        );
       }
     });
   } catch (e) {
