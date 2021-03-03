@@ -1,5 +1,6 @@
 import { Robot, Adapter, Message } from "hubot";
 import { WebClient, WebAPICallResult } from "@slack/client";
+/* eslint-disable camelcase */
 type SlackFile = {
   url_private: string;
 };
@@ -42,6 +43,7 @@ interface CustomMessageData {
   icon_url?: string;
   icon_emoji?: string;
 }
+/* eslint-enable camelcase */
 interface CustomMessage {
   envelope?: {
     room: string;
@@ -60,8 +62,7 @@ interface ChannelsListResponse extends WebAPICallResult {
 
 const getTimesChannel = async (robot: Robot<SlackAdapter>) => {
   const web = new WebClient(robot.adapter.options.token);
-  const channels = ((await web.channels.list()) as ChannelsListResponse)
-    .channels;
+  const { channels } = (await web.channels.list()) as ChannelsListResponse;
   return channels
     .filter((channel) => channel.name.startsWith("times_"))
     .map((channel) => channel.id);
@@ -69,8 +70,7 @@ const getTimesChannel = async (robot: Robot<SlackAdapter>) => {
 module.exports = async (robot: Robot<SlackAdapter>) => {
   try {
     const web = new WebClient(robot.adapter.options.token);
-    const channels = ((await web.channels.list()) as ChannelsListResponse)
-      .channels;
+    const { channels } = (await web.channels.list()) as ChannelsListResponse;
     const timelineChannel: string = channels.find(
       (channel) => channel.name === "timeline"
     ).id;
@@ -82,7 +82,7 @@ module.exports = async (robot: Robot<SlackAdapter>) => {
       robot.logger.info(res);
       robot.logger.info(rawMessage.user.slack.profile);
       if ((await getTimesChannel(robot)).includes(rawMessage.channel)) {
-        let files = undefined;
+        let files;
         if (rawMessage.files) {
           files = rawMessage.files.map((v) => ({
             fallback: "image",
@@ -110,7 +110,7 @@ module.exports = async (robot: Robot<SlackAdapter>) => {
   }
 };
 
-/*const USER_IMAGES = "userImages";
+/* const USER_IMAGES = "userImages";
 type UserImages = {
   [key: string]: string;
 };
@@ -128,4 +128,4 @@ function reloadUserImages(robot: Robot, userId: number) {
         robot.brain.set(USER_IMAGES, newUserImages);
     }
   }
-}*/
+} */
