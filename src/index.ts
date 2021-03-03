@@ -62,7 +62,7 @@ interface ChannelsListResponse extends WebAPICallResult {
 
 const getTimesChannel = async (robot: Robot<SlackAdapter>) => {
   const web = new WebClient(robot.adapter.options.token);
-  const { channels } = (await web.channels.list()) as ChannelsListResponse;
+  const { channels } = (await web.conversations.list()) as ChannelsListResponse;
   return channels
     .filter((channel) => channel.name.startsWith("times_"))
     .map((channel) => channel.id);
@@ -70,7 +70,9 @@ const getTimesChannel = async (robot: Robot<SlackAdapter>) => {
 module.exports = async (robot: Robot<SlackAdapter>) => {
   try {
     const web = new WebClient(robot.adapter.options.token);
-    const { channels } = (await web.channels.list()) as ChannelsListResponse;
+    const {
+      channels,
+    } = (await web.conversations.list()) as ChannelsListResponse;
     const timelineChannel: string = channels.find(
       (channel) => channel.name === "timeline"
     ).id;
