@@ -3,3 +3,4 @@ node_modules
 .hubot_history
 scripts
 yarn-error.log
+.cache
