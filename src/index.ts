@@ -55,6 +55,7 @@ interface Attachment {}
 interface Channel {
   id: string;
   name: string;
+  name_normalized: string;
 }
 interface ChannelsListResponse extends WebAPICallResult {
   channels: Channel[];
@@ -63,16 +64,19 @@ interface ChannelsListResponse extends WebAPICallResult {
 const getTimesChannel = async (robot: Robot<SlackAdapter>) => {
   const web = new WebClient(robot.adapter.options.token);
   const { channels } = (await web.conversations.list()) as ChannelsListResponse;
+  robot.logger.info(channels.map(c=>c.name))
+  robot.logger.info(channels.find(c=>c.name === 'times_kansei'))
+  robot.logger.info(channels.filter((channel) => channel.name_normalized.startsWith('times_')).map((channel)=>channel.name))
   return channels
-    .filter((channel) => channel.name.startsWith("times_"))
-    .map((channel) => channel.id);
+    .filter((channel) => channel.name_normalized.startsWith("times_"))
+    .map((channel) => channel.id).concat(['C01E88RCTP1','C01RDPRGD2R']);
 };
 module.exports = async (robot: Robot<SlackAdapter>) => {
   try {
     const web = new WebClient(robot.adapter.options.token);
     const {
       channels,
-    } = (await web.conversations.list()) as ChannelsListResponse;
+    } = (await web.conversations.list({limit: 1000, exclude_archived: true})) as ChannelsListResponse;
     const timelineChannel: string = channels.find(
       (channel) => channel.name === "timeline"
     ).id;
@@ -83,6 +87,8 @@ module.exports = async (robot: Robot<SlackAdapter>) => {
       robot.logger.info(rawMessage);
       robot.logger.info(res);
       robot.logger.info(rawMessage.user.slack.profile);
+      robot.logger.info('times')
+      robot.logger.info(await getTimesChannel(robot));
       if ((await getTimesChannel(robot)).includes(rawMessage.channel)) {
         let files;
         if (rawMessage.files) {
@@ -106,7 +112,7 @@ module.exports = async (robot: Robot<SlackAdapter>) => {
           } as any
         );
       }
-    });
+      });
   } catch (e) {
     robot.logger.error(e.massage);
   }
