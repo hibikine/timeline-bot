@@ -67,6 +67,7 @@ const getConversationsAll = async (web: WebClient): Promise<Channel[]> => {
   do {
     const { channels, response_metadata } = (await web.conversations.list({
       limit: 1000,
+      exclude_archived: true,
     })) as ChannelsListResponse;
     next_cursor = response_metadata?.next_cursor;
     channelsList = channelsList.concat(channels);
@@ -77,17 +78,11 @@ const getConversationsAll = async (web: WebClient): Promise<Channel[]> => {
 const getTimesChannel = async (robot: Robot<SlackAdapter>) => {
   const web = new WebClient(robot.adapter.options.token);
   const channels = await getConversationsAll(web);
-  robot.logger.info(channels.map((c) => c.name));
-  robot.logger.info(channels.find((c) => c.name === "times_kansei"));
-  robot.logger.info(
-    channels
-      .filter((channel) => channel.name_normalized.startsWith("times_"))
-      .map((channel) => channel.name)
+  const times_channels = channels.filter((channel) =>
+    channel.name_normalized.startsWith("times_")
   );
-  return channels
-    .filter((channel) => channel.name_normalized.startsWith("times_"))
-    .map((channel) => channel.id)
-    .concat(["C01E88RCTP1", "C01RDPRGD2R"]);
+  robot.logger.info(`${times_channels.length} channels found`);
+  return times_channels.map((channel) => channel.id);
 };
 module.exports = async (robot: Robot<SlackAdapter>) => {
   try {
@@ -96,10 +91,16 @@ module.exports = async (robot: Robot<SlackAdapter>) => {
       limit: 1000,
       exclude_archived: true,
     })) as ChannelsListResponse;
-    const timelineChannel: string = channels.find(
+    const timelineChannel = channels.find(
       (channel) => channel.name === "timeline"
-    ).id;
+    )?.id;
+    if (typeof timelineChannel === "undefined") {
+      throw new Error("Timeline channel not found");
+    }
     robot.logger.info(timelineChannel);
+    robot.logger.info(
+      channels.filter((v) => v.name.includes("times")).map((v) => v.name)
+    );
 
     robot.hear(/.*?/i, async (res) => {
       const { rawMessage } = (res.message as any) as SlackMessage;
