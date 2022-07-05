@@ -61,22 +61,41 @@ interface ChannelsListResponse extends WebAPICallResult {
   channels: Channel[];
 }
 
+const getConversationsAll = async (web: WebClient): Promise<Channel[]> => {
+  let channelsList: Channel[] = [];
+  let next_cursor: string | undefined = undefined;
+  do {
+    const { channels, response_metadata } = (await web.conversations.list({
+      limit: 1000,
+    })) as ChannelsListResponse;
+    next_cursor = response_metadata?.next_cursor;
+    channelsList = channelsList.concat(channels);
+  } while (typeof next_cursor === "string" && next_cursor !== "");
+  return channelsList;
+};
+
 const getTimesChannel = async (robot: Robot<SlackAdapter>) => {
   const web = new WebClient(robot.adapter.options.token);
-  const { channels } = (await web.conversations.list()) as ChannelsListResponse;
-  robot.logger.info(channels.map(c=>c.name))
-  robot.logger.info(channels.find(c=>c.name === 'times_kansei'))
-  robot.logger.info(channels.filter((channel) => channel.name_normalized.startsWith('times_')).map((channel)=>channel.name))
+  const channels = await getConversationsAll(web);
+  robot.logger.info(channels.map((c) => c.name));
+  robot.logger.info(channels.find((c) => c.name === "times_kansei"));
+  robot.logger.info(
+    channels
+      .filter((channel) => channel.name_normalized.startsWith("times_"))
+      .map((channel) => channel.name)
+  );
   return channels
     .filter((channel) => channel.name_normalized.startsWith("times_"))
-    .map((channel) => channel.id).concat(['C01E88RCTP1','C01RDPRGD2R']);
+    .map((channel) => channel.id)
+    .concat(["C01E88RCTP1", "C01RDPRGD2R"]);
 };
 module.exports = async (robot: Robot<SlackAdapter>) => {
   try {
     const web = new WebClient(robot.adapter.options.token);
-    const {
-      channels,
-    } = (await web.conversations.list({limit: 1000, exclude_archived: true})) as ChannelsListResponse;
+    const { channels } = (await web.conversations.list({
+      limit: 1000,
+      exclude_archived: true,
+    })) as ChannelsListResponse;
     const timelineChannel: string = channels.find(
       (channel) => channel.name === "timeline"
     ).id;
@@ -87,7 +106,7 @@ module.exports = async (robot: Robot<SlackAdapter>) => {
       robot.logger.info(rawMessage);
       robot.logger.info(res);
       robot.logger.info(rawMessage.user.slack.profile);
-      robot.logger.info('times')
+      robot.logger.info("times");
       robot.logger.info(await getTimesChannel(robot));
       if ((await getTimesChannel(robot)).includes(rawMessage.channel)) {
         let files;
@@ -112,7 +131,7 @@ module.exports = async (robot: Robot<SlackAdapter>) => {
           } as any
         );
       }
-      });
+    });
   } catch (e) {
     robot.logger.error(e.massage);
   }
