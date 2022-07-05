@@ -63,10 +63,10 @@ interface ChannelsListResponse extends WebAPICallResult {
 
 const getTimesChannel = async (robot: Robot<SlackAdapter>) => {
   const web = new WebClient(robot.adapter.options.token);
-  const { channels } = (await web.conversations.list()) as ChannelsListResponse;
-  robot.logger.info(channels.map(c=>c.name))
+  const { channels } = (await web.conversations.list({limit: 1000, exclude_archived: true}) as ChannelsListResponse);
+  robot.logger.info(channels.map(c=>c.name_normalized))
   robot.logger.info(channels.find(c=>c.name === 'times_kansei'))
-  robot.logger.info(channels.filter((channel) => channel.name_normalized.startsWith('times_')).map((channel)=>channel.name))
+  robot.logger.info(channels.filter((channel) => channel.name.startsWith('times_')).map((channel)=>channel.name))
   return channels
     .filter((channel) => channel.name_normalized.startsWith("times_"))
     .map((channel) => channel.id).concat(['C01E88RCTP1','C01RDPRGD2R']);
@@ -81,6 +81,7 @@ module.exports = async (robot: Robot<SlackAdapter>) => {
       (channel) => channel.name === "timeline"
     ).id;
     robot.logger.info(timelineChannel);
+    robot.logger.info(channels.filter(v=>v.name.includes('times')).map(v=>v.name));
 
     robot.hear(/.*?/i, async (res) => {
       const { rawMessage } = (res.message as any) as SlackMessage;
